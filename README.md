@@ -13,8 +13,23 @@ Crypto traders often see high potential returns without noticing hidden volatili
 
 ## 🔌 CoinMarketCap API Endpoints Used
 
-1. `GET /v1/cryptocurrency/listings/latest` — Fetches real-time USD prices, market cap, 24h volume, and 24h/7d percentage changes across the top 40 assets.
-2. `GET /v3/fear-and-greed/latest` — Fetches the live CoinMarketCap Fear & Greed Index (`value` and `value_classification`) to drive macro risk alerts.
+1. `GET /v1/cryptocurrency/listings/latest` — Fetches real-time USD prices, market cap, 24h volume, and 24h/7d percentage changes across the top 50 assets.
+2. `GET /v2/cryptocurrency/info` — Resolves any pasted smart contract address (`0x...` or Solana) to its CoinMarketCap ID and chain metadata.
+3. `GET /v2/cryptocurrency/quotes/latest` — Fetches real-time market quotes for any searched token symbol or smart contract.
+4. `GET /v3/fear-and-greed/latest` — Fetches the live CoinMarketCap Fear & Greed Index (`value` and `value_classification`) to drive macro risk alerts.
+
+
+### Visible Evidence of Real API Call
+
+```python
+headers = {"X-CMC_PRO_API_KEY": API_KEY, "Accept": "application/json"}
+response = requests.get(
+    "https://coinmarketcap.com",
+    params={"start": 1, "limit": 50, "convert": "USD"},
+    headers=headers,
+    timeout=10,
+)
+```
 
 ### Visible Evidence of Real API Call
 
