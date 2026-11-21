@@ -11,7 +11,7 @@ load_dotenv(override=True)
 st.set_page_config(page_title="SimpliLoop | CMC Command Center", layout="wide")
 
 if os.path.exists("banner.png.jpg"):
-    col_banner, col_spacer = st.columns()
+    col_banner, col_spacer = st.columns([2, 3])
     with col_banner:
         st.image("banner.png.jpg", use_container_width=True)
 
