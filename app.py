@@ -296,10 +296,22 @@ if assets:
             f"Platform Fee (0.02%): ${platform_fee:.2f}",
         )
 
-    uniswap_url = f"https://uniswap.org{target_safe}"
+    from_sym = current_asset["symbol"]
+    if from_sym == "SOL":
+        swap_url = f"https://jup.ag{target_safe}"
+        dex_name = "Jupiter (Solana)"
+    elif from_sym == "BNB":
+        swap_url = f"https://pancakeswap.finance{target_safe}"
+        dex_name = "PancakeSwap (BNB Chain)"
+    else:
+        in_token = "ETH" if from_sym in {"BTC", "ETH"} else from_sym
+        swap_url = f"https://uniswap.org{in_token}&outputCurrency={target_safe}"
+        dex_name = "Uniswap"
+
     st.info(
-        f"**Execution Plan:** Rotate **${trade_usd:,.0f}** from **{current_asset['symbol']}** → **{target_safe}** "
-        f"via non-custodial DEX Aggregator (0.02% ultra-low SimpliLoop routing fee = **${platform_fee:.2f}**). "
-        f"[Open Pre-Filled Swap Route ↗]({uniswap_url})"
+        f"**Execution Plan:** Rotate **${trade_usd:,.0f}** from **{from_sym}** → **{target_safe}** "
+        f"via **{dex_name}** (0.02% ultra-low SimpliLoop routing fee = **${platform_fee:.2f}**)."
     )
+    st.link_button(f"🚀 Execute Swap Route on {dex_name} ↗", swap_url)
+
 
