@@ -8,7 +8,11 @@ from dotenv import load_dotenv
 load_dotenv(override=True)
 
 # --- PAGE CONFIGURATION ---
-st.set_page_config(page_title="SimpliLoop | CMC Command Center", layout="wide")
+st.set_page_config(
+    page_title="SimpliLoop | CMC Command Center",
+    page_icon="logo.png" if os.path.exists("logo.png") else "🔄",
+    layout="wide",
+)
 
 if os.path.exists("banner.png.jpg"):
     col_banner, col_spacer = st.columns([2, 3])
