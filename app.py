@@ -10,7 +10,7 @@ load_dotenv(override=True)
 # --- PAGE CONFIGURATION ---
 st.set_page_config(
     page_title="SimpliLoop | CMC Command Center",
-    page_icon="logo.png" if os.path.exists("logo.png") else "🔄",
+    page_icon="logo.png.jpg" if os.path.exists("logo.png.jpg") else "🔄",
     layout="wide",
 )
 
