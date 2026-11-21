@@ -10,10 +10,10 @@ load_dotenv(override=True)
 # --- PAGE CONFIGURATION ---
 st.set_page_config(page_title="SimpliLoop | CMC Command Center", layout="wide")
 
-if os.path.exists("banner.png"):
-    col_banner, col_spacer = st.columns([2, 3])
+if os.path.exists("banner.png.jpg"):
+    col_banner, col_spacer = st.columns()
     with col_banner:
-        st.image("banner.png", use_container_width=True)
+        st.image("banner.png.jpg", use_container_width=True)
 
 # --- STRICT DATA MODELS ---
 class AssetMetrics(TypedDict):
