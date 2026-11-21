@@ -4,6 +4,12 @@ from typing import TypedDict
 import requests
 import streamlit as st
 from dotenv import load_dotenv
+# --- ZONE 4: ECOSYSTEM NET SIMPLICITY CHART (ZERO EXTRA API CALLS) ---
+if assets:
+    st.divider()
+    st.subheader("📊 Ecosystem Risk vs. Simplicity Score (Top 10 Live Scan)")
+    chart_data = {a["symbol"]: a["net_score"] for a in assets[:10]}
+    st.bar_chart(chart_data, color="#2563eb")
 
 load_dotenv(override=True)
 
@@ -265,3 +271,33 @@ with center_col:
 
         _ = st.markdown("#### 🚨 Immediate Risk & Solution Engine")
 
+# --- ZONE 5: INSTANT SWAP PLAN & FEE ROUTING ENGINE ---
+if assets:
+    st.divider()
+    st.subheader("💱 Instant Swap Plan & Fee Routing Engine")
+
+    first_asset = next(iter(assets))
+    active_name = str(st.session_state.active_coin)
+    current_asset = next((a for a in assets if a["name"] == active_name), first_asset)
+
+    swap_col1, swap_col2, swap_col3 = st.columns(3)
+    with swap_col1:
+        trade_usd = st.number_input("Position Size (USD)", min_value=50.0, value=1000.0, step=50.0)
+    with swap_col2:
+        target_safe = st.selectbox("Target Safe / Hedge Asset", ["USDC", "USDT", "PAXG", "BTC", "ETH"])
+    with swap_col3:
+        fee_bps = 2  # 0.02% ultra-low partner routing fee (2 bps)
+        platform_fee = round(trade_usd * (fee_bps / 10_000), 2)
+        net_output = round(trade_usd - platform_fee, 2)
+        st.metric(
+            "Est. Net Swap Output",
+            f"${net_output:,.2f} {target_safe}",
+            f"Platform Fee (0.02%): ${platform_fee:.2f}",
+        )
+
+    uniswap_url = f"https://uniswap.org{target_safe}"
+    st.info(
+        f"**Execution Plan:** Rotate **${trade_usd:,.0f}** from **{current_asset['symbol']}** → **{target_safe}** "
+        f"via non-custodial DEX Aggregator (0.02% ultra-low SimpliLoop routing fee = **${platform_fee:.2f}**). "
+        f"[Open Pre-Filled Swap Route ↗]({uniswap_url})"
+    )
