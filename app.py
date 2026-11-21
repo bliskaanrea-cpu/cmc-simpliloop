@@ -298,14 +298,14 @@ if assets:
 
     from_sym = current_asset["symbol"]
     if from_sym == "SOL":
-        swap_url = f"https://jup.ag{target_safe}"
+        swap_url = "/".join(["https:", "", "jup.ag", "swap", f"SOL-{target_safe}"])
         dex_name = "Jupiter (Solana)"
     elif from_sym == "BNB":
-        swap_url = f"https://pancakeswap.finance{target_safe}"
+        swap_url = "/".join(["https:", "", "pancakeswap.finance", f"swap?outputCurrency={target_safe}"])
         dex_name = "PancakeSwap (BNB Chain)"
     else:
         in_token = "ETH" if from_sym in {"BTC", "ETH"} else from_sym
-        swap_url = f"https://uniswap.org{in_token}&outputCurrency={target_safe}"
+        swap_url = "/".join(["https:", "", "app.uniswap.org", f"swap?inputCurrency={in_token}&outputCurrency={target_safe}"])
         dex_name = "Uniswap"
 
     st.info(
