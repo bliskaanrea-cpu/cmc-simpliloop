@@ -1,5 +1,5 @@
 <p align="left">
-  <img src="./banner.png" alt="SimpliLoop Banner" width="540" />
+  <img src="./banner.png.jpg" alt="SimpliLoop Banner" width="540" />
 </p>
 
 # 🔄 SimpliLoop — Real-Time Risk, Potential & Instant Solution Engine
