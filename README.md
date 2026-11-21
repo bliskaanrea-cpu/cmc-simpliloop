@@ -1,3 +1,7 @@
+<p align="left">
+  <img src="./banner.png" alt="SimpliLoop Banner" width="540" />
+</p>
+
 # 🔄 SimpliLoop — Real-Time Risk, Potential & Instant Solution Engine
 
 **Built for the CoinMarketCap API Hackathon (#BuildwithCMC)**  
@@ -18,7 +22,6 @@ Crypto traders often see high potential returns without noticing hidden volatili
 3. `GET /v2/cryptocurrency/quotes/latest` — Fetches real-time market quotes for any searched token symbol or smart contract.
 4. `GET /v3/fear-and-greed/latest` — Fetches the live CoinMarketCap Fear & Greed Index (`value` and `value_classification`) to drive macro risk alerts.
 
-
 ### Visible Evidence of Real API Call
 
 ```python
@@ -26,18 +29,6 @@ headers = {"X-CMC_PRO_API_KEY": API_KEY, "Accept": "application/json"}
 response = requests.get(
     "https://coinmarketcap.com",
     params={"start": 1, "limit": 50, "convert": "USD"},
-    headers=headers,
-    timeout=10,
-)
-```
-
-### Visible Evidence of Real API Call
-
-```python
-headers = {"X-CMC_PRO_API_KEY": API_KEY, "Accept": "application/json"}
-response = requests.get(
-    "https://coinmarketcap.com",
-    params={"start": 1, "limit": 40, "convert": "USD"},
     headers=headers,
     timeout=10,
 )
@@ -74,13 +65,13 @@ response = requests.get(
 pip install -r requirements.txt
 ```
 
-1. Create a `.env` file in the root directory and add your CoinMarketCap API key:
+2. Create a `.env` file in the root directory and add your CoinMarketCap API key:
 
 ```env
 CMC_API_KEY=your_coinmarketcap_api_key
 ```
 
-1. Launch the single-screen dashboard:
+3. Launch the single-screen dashboard:
 
 ```bash
 python -m streamlit run app.py
@@ -94,5 +85,3 @@ python -m streamlit run app.py
 ## 📄 License
 
 This project is licensed under the MIT License — see the [LICENSE](LICENSE) file for details.
-
-![SimpliLoop Banner](./banner.png)
