@@ -4,13 +4,15 @@ from typing import TypedDict
 import requests
 import streamlit as st
 from dotenv import load_dotenv
-# --- ZONE 4: ECOSYSTEM NET SIMPLICITY CHART (ZERO EXTRA API CALLS) ---
-if assets:
-    st.divider()
-    st.subheader("📊 Ecosystem Risk vs. Simplicity Score (Top 10 Live Scan)")
-    chart_data = {a["symbol"]: a["net_score"] for a in assets[:10]}
-    st.bar_chart(chart_data, color="#2563eb")
 
+load_dotenv(override=True)
+
+# --- PAGE CONFIGURATION ---
+st.set_page_config(
+    page_title="SimpliLoop | CMC Command Center",
+    page_icon="logo.png.jpg" if os.path.exists("logo.png.jpg") else "🔄",
+    layout="wide",
+)
 
 if os.path.exists("banner.png.jpg"):
     col_banner, col_spacer = st.columns([2, 3])
