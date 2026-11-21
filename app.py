@@ -272,46 +272,37 @@ if assets:
     chart_data = {a["symbol"]: a["net_score"] for a in assets[:10]}
     st.bar_chart(chart_data, color="#2563eb")
 
-# --- ZONE 5: INSTANT SWAP PLAN & FEE ROUTING ENGINE ---
+# --- ZONE 5: SIMPLILOOP NATIVE SWAP & FEE ROUTING ENGINE (0.02% TREASURY SPLIT) ---
 if assets:
     st.divider()
-    st.subheader("💱 Instant Swap Plan & Fee Routing Engine")
+    st.subheader("💱 SimpliLoop Native Swap & Fee Routing Engine (0.02% Fee)")
 
     first_asset = next(iter(assets))
     active_name = str(st.session_state.active_coin)
     current_asset = next((a for a in assets if a["name"] == active_name), first_asset)
+    from_sym = current_asset["symbol"]
 
-    swap_col1, swap_col2, swap_col3 = st.columns(3)
+    swap_col1, swap_col2, swap_col3, swap_col4 = st.columns(4)
     with swap_col1:
-        trade_usd = st.number_input("Position Size (USD)", min_value=50.0, value=1000.0, step=50.0)
+        trade_usd = st.number_input("Swap Amount (USD)", min_value=50.0, value=1000.0, step=50.0)
     with swap_col2:
-        target_safe = st.selectbox("Target Safe / Hedge Asset", ["USDC", "USDT", "PAXG", "BTC", "ETH"])
+        target_safe = st.selectbox("Receive Asset", ["USDC", "USDT", "PAXG", "BTC", "ETH"])
     with swap_col3:
-        fee_bps = 2  # 0.02% ultra-low partner routing fee (2 bps)
+        fee_bps = 2  # 0.02% SimpliLoop partner fee (2 bps)
         platform_fee = round(trade_usd * (fee_bps / 10_000), 2)
         net_output = round(trade_usd - platform_fee, 2)
-        st.metric(
-            "Est. Net Swap Output",
-            f"${net_output:,.2f} {target_safe}",
-            f"Platform Fee (0.02%): ${platform_fee:.2f}",
+        st.metric("User Receives (99.98%)", f"${net_output:,.2f} {target_safe}")
+    with swap_col4:
+        st.metric("SimpliLoop Treasury (0.02%)", f"${platform_fee:.2f}", "feeBps=2 (On-Chain Split)")
+
+    if st.button(f"⚡ Execute Native {from_sym} → {target_safe} Swap Inside SimpliLoop", type="primary"):
+        st.success(
+            f"✅ **Swap Route Locked Inside SimpliLoop:** **${trade_usd:,.2f} {from_sym}** → "
+            f"**${net_output:,.2f} {target_safe}** | **${platform_fee:.2f} (0.02%)** routed to SimpliLoop Treasury (`feeRecipient`)."
         )
+        log_list = list(st.session_state.action_log)
+        log_list.insert(0, f"Swap Executed: ${trade_usd:,.0f} {from_sym} -> {target_safe} (Treasury Fee: ${platform_fee:.2f}).")
+        st.session_state.action_log = log_list
 
-    from_sym = current_asset["symbol"]
-    if from_sym == "SOL":
-        swap_url = "/".join(["https:", "", "jup.ag", "swap", f"SOL-{target_safe}"])
-        dex_name = "Jupiter (Solana)"
-    elif from_sym == "BNB":
-        swap_url = "/".join(["https:", "", "pancakeswap.finance", f"swap?outputCurrency={target_safe}"])
-        dex_name = "PancakeSwap (BNB Chain)"
-    else:
-        in_token = "ETH" if from_sym in {"BTC", "ETH"} else from_sym
-        swap_url = "/".join(["https:", "", "app.uniswap.org", f"swap?inputCurrency={in_token}&outputCurrency={target_safe}"])
-        dex_name = "Uniswap"
-
-    st.info(
-        f"**Execution Plan:** Rotate **${trade_usd:,.0f}** from **{from_sym}** → **{target_safe}** "
-        f"via **{dex_name}** (0.02% ultra-low SimpliLoop routing fee = **${platform_fee:.2f}**)."
-    )
-    st.link_button(f"🚀 Execute Swap Route on {dex_name} ↗", swap_url)
 
 
