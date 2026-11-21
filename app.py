@@ -8,12 +8,12 @@ from dotenv import load_dotenv
 load_dotenv(override=True)
 
 # --- PAGE CONFIGURATION ---
-st.set_page_config(page_title="SimpliLoop | CMC Command Center", layout="wide") col_banner, col_spacer = st.columns([2, 3])  # Adjust [2, 3] to make the banner wider or narrower
+st.set_page_config(page_title="SimpliLoop | CMC Command Center", layout="wide")
 
-with col_banner:
-    st.image("banner.png", use_container_width=True)
-
-st.image("banner.png", use_container_width=True)
+if os.path.exists("banner.png"):
+    col_banner, col_spacer = st.columns([2, 3])
+    with col_banner:
+        st.image("banner.png", use_container_width=True)
 
 # --- STRICT DATA MODELS ---
 class AssetMetrics(TypedDict):
